@@ -16,5 +16,11 @@
 	<string>1</string>
 	<key>NSCameraUsageDescription</key>
 	<string>We need access to your camera so you can upload party photos.</string>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen.storyboard</string>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+	</array>
 </dict>
 </plist>

@@ -13,6 +13,15 @@ struct Party: Identifiable {
     let location: String
     let code: String
     let createdAt: Date
+    let imageURL: String? // New field added
+}
+
+struct VisualEffectBlur: UIViewRepresentable {
+    func makeUIView(context: Context) -> UIVisualEffectView {
+        return UIVisualEffectView(effect: UIBlurEffect(style: .systemMaterialDark))
+    }
+
+    func updateUIView(_ uiView: UIVisualEffectView, context: Context) {}
 }
 
 struct PartyMapAnnotation: Identifiable {
@@ -26,43 +35,44 @@ struct AppMainView: View {
     
     var body: some View {
         if isLoggedIn {
-            ZStack {
+            NavigationView {
                 TabView {
                     FeedView()
                         .tabItem {
-                            Label("Feed", systemImage: "photo.on.rectangle")
+                            Label("Feed", systemImage: "rectangle.stack.fill")
                         }
-                    
+
                     SearchView()
                         .tabItem {
-                            Label("Search", systemImage: "magnifyingglass")
+                            Label("Search", systemImage: "magnifyingglass.circle.fill")
                         }
-                    
+
                     MapView()
                         .tabItem {
-                            Label("Map", systemImage: "map.fill")
+                            Label("Map", systemImage: "map.circle.fill")
                         }
-                    
+
                     HomeView()
                         .tabItem {
-                            Label("Events", systemImage: "calendar")
+                            Label("Events", systemImage: "calendar.circle.fill")
                         }
-                    
+
                     NotificationsView()
                         .tabItem {
-                            Label("Alerts", systemImage: "bell")
+                            Label("Alerts", systemImage: "bell.circle.fill")
                         }
-                    
-                    NavigationView {
-                        UserProfileView()
-                    }
-                    .tabItem {
-                        Label("Profile", systemImage: "person.crop.circle")
-                    }
+
+                    UserProfileView()
+                        .tabItem {
+                            Label("Profile", systemImage: "person.crop.circle.fill")
+                        }
                 }
+                .tint(.blue)
+                .background(Material.ultraThinMaterial)
+                .navigationBarTitleDisplayMode(.automatic)
+                .padding(.bottom, 5)
             }
-            .ignoresSafeArea(.keyboard)
-            .edgesIgnoringSafeArea(.bottom)
+            .navigationViewStyle(StackNavigationViewStyle())
         } else {
             AuthGate()
         }
@@ -311,29 +321,94 @@ struct HomeView: View {
     var body: some View {
         NavigationView {
             VStack(spacing: 20) {
-                Text("🎉 Welcome to FlickUp!")
-                    .font(.largeTitle)
-                    .bold()
-                
-                Text("Your upcoming events will appear here.")
-                    .font(.body)
-                    .foregroundColor(.gray)
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("🎉 Welcome to FlickUp!")
+                        .font(.largeTitle)
+                        .bold()
+                    Text("See the parties you're in below")
+                        .font(.body)
+                        .foregroundColor(.gray)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal)
  
                 if parties.isEmpty {
                     Text("You haven't joined any parties yet.")
                         .foregroundColor(.gray)
                 } else {
-                    List(parties) { party in
-                        NavigationLink(destination: PartyDetailView(party: party)) {
-                            VStack(alignment: .leading) {
-                                Text(party.name)
-                                    .font(.headline)
-                                Text("Code: \(party.code)")
-                                    .font(.subheadline)
-                                    .foregroundColor(.gray)
+                ScrollView {
+                    LazyVStack(spacing: 16) {
+                        ForEach(parties) { party in
+                            NavigationLink(destination: PartyDetailView(party: party)) {
+                                ZStack(alignment: .bottomLeading) {
+                                    AsyncImage(url: URL(string: party.imageURL ?? "")) { image in
+                                        image
+                                            .resizable()
+                                            .scaledToFill()
+                                            .frame(height: 220)
+                                            .clipped()
+                                    } placeholder: {
+                                        Color.gray.opacity(0.2)
+                                            .frame(height: 220)
+                                    }
+
+                                    LinearGradient(
+                                        gradient: Gradient(colors: [Color.black.opacity(0.7), .clear]),
+                                        startPoint: .bottom,
+                                        endPoint: .top
+                                    )
+                                    .frame(height: 100)
+
+                                    VStack(alignment: .leading, spacing: 4) {
+                                        Text(party.name)
+                                            .font(.title2)
+                                            .bold()
+                                            .foregroundColor(.white)
+
+                                        Text("📍 \(party.location)")
+                                            .font(.subheadline)
+                                            .foregroundColor(.white.opacity(0.85))
+
+                                        Text("Code: \(party.code)")
+                                            .font(.caption)
+                                            .foregroundColor(.white.opacity(0.7))
+                                    }
+                                    .padding()
+
+                                    VStack {
+                                        Spacer()
+                                        HStack {
+                                            Button {
+                                                // Optional: Add join logic
+                                            } label: {
+                                                Label("Join", systemImage: "checkmark.circle.fill")
+                                                    .padding(.horizontal, 12)
+                                                    .padding(.vertical, 8)
+                                                    .background(.ultraThinMaterial)
+                                                    .clipShape(Capsule())
+                                            }
+
+                                            Spacer()
+
+                                            Label("158", systemImage: "person.3.fill")
+                                                .padding(.horizontal, 12)
+                                                .padding(.vertical, 8)
+                                                .background(.ultraThinMaterial)
+                                                .clipShape(Capsule())
+                                        }
+                                        .font(.footnote)
+                                        .foregroundColor(.white)
+                                        .padding([.horizontal, .bottom])
+                                    }
+                                }
+                                .background(Color.black.opacity(0.03))
+                                .cornerRadius(18)
+                                .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 5)
+                                .padding(.horizontal)
                             }
                         }
                     }
+                }
                 }
  
                 HStack {
@@ -461,15 +536,26 @@ struct HomeView: View {
                         let name = data["party_name"] as? String,
                         let code = data["party_code"] as? String,
                         let timestamp = data["created_at"] as? Timestamp
-                    else { return nil }
+                    else {
+                        return Party(
+                            id: doc.documentID,
+                            name: "Unnamed Party",
+                            location: "Unknown",
+                            code: "UNKNOWN",
+                            createdAt: Date(),
+                            imageURL: nil
+                        )
+                    }
 
                     let location = data["location"] as? String ?? "Unknown"
+                    let imageURL = data["image_url"] as? String
                     return Party(
                         id: doc.documentID,
                         name: name,
                         location: location,
                         code: code,
-                        createdAt: timestamp.dateValue()
+                        createdAt: timestamp.dateValue(),
+                        imageURL: imageURL
                     )
                 }
                 self.mapAnnotations = parties.compactMap { party in
@@ -562,14 +648,25 @@ struct HomeView: View {
                                 let name = data["party_name"] as? String,
                                 let code = data["party_code"] as? String,
                                 let timestamp = data["created_at"] as? Timestamp
-                            else { return nil }
+                            else {
+                                return Party(
+                                    id: doc.documentID,
+                                    name: "Unnamed Party",
+                                    location: "Unknown",
+                                    code: "UNKNOWN",
+                                    createdAt: Date(),
+                                    imageURL: nil
+                                )
+                            }
                             let location = data["location"] as? String ?? "Unknown"
+                            let imageURL = data["image_url"] as? String
                             return Party(
                                 id: doc.documentID,
                                 name: name,
                                 location: location,
                                 code: code,
-                                createdAt: timestamp.dateValue()
+                                createdAt: timestamp.dateValue(),
+                                imageURL: imageURL
                             )
                         }
                     }
@@ -944,15 +1041,28 @@ struct SearchView: View {
                         let name = data["party_name"] as? String,
                         let code = data["party_code"] as? String,
                         let timestamp = data["created_at"] as? Timestamp
-                    else { return nil }
+                  else {
+                        let location = data["location"] as? String ?? "Unknown"
+                        let imageURL = data["image_url"] as? String
+                        return Party(
+                            id: doc.documentID,
+                            name: "Unnamed Party",
+                            location: location,
+                            code: "UNKNOWN",
+                            createdAt: Date(),
+                            imageURL: imageURL
+                        )
+                  }
 
                     let location = data["location"] as? String ?? "Unknown"
+                    let imageURL = data["image_url"] as? String
                     return Party(
                         id: doc.documentID,
                         name: name,
                         location: location,
                         code: code,
-                        createdAt: timestamp.dateValue()
+                        createdAt: timestamp.dateValue(),
+                        imageURL: imageURL
                     )
                 }
                 filterParties()
@@ -983,9 +1093,10 @@ struct UserProfileView: View {
     @State private var hostedParties: [Party] = []
     
     var body: some View {
-        NavigationView {
-            ScrollView {
-                VStack(spacing: 16) {
+        ScrollView {
+            VStack(spacing: 16) {
+                // Profile Header
+                VStack(spacing: 12) {
                     if let url = URL(string: profileImageURL), !profileImageURL.isEmpty {
                         AsyncImage(url: url) { image in
                             image.resizable()
@@ -996,17 +1107,23 @@ struct UserProfileView: View {
                             ProgressView()
                         }
                     } else {
-                        Image(systemName: "person.crop.circle")
+                        Image(systemName: "person.crop.circle.fill")
                             .resizable()
-                            .scaledToFit()
+                            .scaledToFill()
                             .frame(width: 100, height: 100)
-                            .foregroundColor(.gray)
+                            .foregroundColor(.gray.opacity(0.4))
                     }
-                    
+ 
                     Text(username.isEmpty ? "Unknown User" : username)
                         .font(.title2)
                         .bold()
-                    
+ 
+                    Text(bio)
+                        .font(.subheadline)
+                        .foregroundColor(.gray)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal)
+ 
                     HStack(spacing: 40) {
                         VStack {
                             Text("\(followersCount)")
@@ -1023,56 +1140,57 @@ struct UserProfileView: View {
                                 .foregroundColor(.gray)
                         }
                     }
-                    
-                    Text(bio)
-                        .font(.body)
-                        .foregroundColor(.secondary)
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal)
-                    
+ 
                     Button("Edit Profile") {
                         isEditingProfile = true
                     }
-                    .padding(.top, 8)
+                    .font(.subheadline)
+                    .padding(.top, 4)
                     .foregroundColor(.blue)
-                    .sheet(isPresented: $isEditingProfile) {
-                        EditProfileView(username: $username, bio: $bio, profileImageURL: $profileImageURL)
-                    }
-                    
-                    Divider()
-                    
+                }
+                .padding(.vertical)
+                .background(RoundedRectangle(cornerRadius: 12).fill(Color(.systemBackground)).shadow(radius: 2))
+                .padding(.horizontal)
+ 
+                Divider().padding(.horizontal)
+ 
+                // Upload Grid
+                VStack(alignment: .leading, spacing: 8) {
                     Text("Your Uploads")
                         .font(.headline)
-                        .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.horizontal)
-                    
-                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))], spacing: 12) {
+ 
+                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())], spacing: 6) {
                         ForEach(uploads) { item in
                             AsyncImage(url: URL(string: item.imageURL)) { image in
                                 image.resizable()
-                                    .scaledToFill()
-                                    .frame(width: 100, height: 100)
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 110, height: 110)
                                     .clipped()
-                                    .cornerRadius(8)
+                                    .cornerRadius(6)
                             } placeholder: {
                                 Color.gray.opacity(0.3)
-                                    .frame(width: 100, height: 100)
-                                    .cornerRadius(8)
+                                    .frame(width: 110, height: 110)
+                                    .cornerRadius(6)
                             }
                         }
                     }
+                    .padding(.horizontal)
                 }
-                .padding()
             }
-            .navigationTitle("Your Profile")
-            .onAppear {
-                fetchProfile()
-                fetchUploads()
-                fetchHostedParties()
-            }
+            .padding(.vertical)
+        }
+        .navigationTitle("Profile")
+        .sheet(isPresented: $isEditingProfile) {
+            EditProfileView(username: $username, bio: $bio, profileImageURL: $profileImageURL)
+        }
+        .onAppear {
+            fetchProfile()
+            fetchUploads()
+            fetchHostedParties()
         }
     }
-    
+
     func fetchHostedParties() {
         guard let uid = Auth.auth().currentUser?.uid else {
             print("❌ No user ID found.")
@@ -1089,7 +1207,16 @@ struct UserProfileView: View {
                             let name = data["party_name"] as? String,
                             let code = data["party_code"] as? String,
                             let timestamp = data["created_at"] as? Timestamp
-                        else { return nil }
+                        else {
+                            return Party(
+                                id: doc.documentID,
+                                name: "Unnamed Party",
+                                location: data["location"] as? String ?? "Unknown",
+                                code: "UNKNOWN",
+                                createdAt: Date(),
+                                imageURL: data["image_url"] as? String
+                            )
+                        }
 
                         let location = data["location"] as? String ?? "Unknown"
                         return Party(
@@ -1097,13 +1224,14 @@ struct UserProfileView: View {
                             name: name,
                             location: location,
                             code: code,
-                            createdAt: timestamp.dateValue()
+                            createdAt: timestamp.dateValue(),
+                            imageURL: data["image_url"] as? String
                         )
                     }
                 }
             }
     }
-    
+
     func deleteParty(_ party: Party) {
         let db = Firestore.firestore()
         db.collection("parties").document(party.id).delete { error in
@@ -1114,60 +1242,60 @@ struct UserProfileView: View {
             }
         }
     }
-        
-        func fetchProfile() {
-            guard let uid = Auth.auth().currentUser?.uid else { return }
-            let docRef = Firestore.firestore().collection("users").document(uid)
-            docRef.getDocument { snapshot, error in
-                if let data = snapshot?.data() {
-                    username = data["username"] as? String ?? ""
-                    bio = data["bio"] as? String ?? ""
-                    profileImageURL = data["profile_image_url"] as? String ?? ""
-                    followersCount = data["followers_count"] as? Int ?? 0
-                    followingCount = data["following_count"] as? Int ?? 0
-                }
+
+    func fetchProfile() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let docRef = Firestore.firestore().collection("users").document(uid)
+        docRef.getDocument { snapshot, error in
+            if let data = snapshot?.data() {
+                username = data["username"] as? String ?? ""
+                bio = data["bio"] as? String ?? ""
+                profileImageURL = data["profile_image_url"] as? String ?? ""
+                followersCount = data["followers_count"] as? Int ?? 0
+                followingCount = data["following_count"] as? Int ?? 0
             }
         }
+    }
+
+    func fetchUploads() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let db = Firestore.firestore()
         
-        func fetchUploads() {
-            guard let uid = Auth.auth().currentUser?.uid else { return }
-            let db = Firestore.firestore()
-            
-            db.collection("parties")
-                .whereField("members", arrayContains: uid)
-                .getDocuments { snapshot, error in
-                    guard let docs = snapshot?.documents else { return }
-                    var allItems: [FeedItem] = []
-                    
-                    let group = DispatchGroup()
-                    
-                    for doc in docs {
-                        let partyID = doc.documentID
-                        group.enter()
-                        db.collection("parties")
-                            .document(partyID)
-                            .collection("media")
-                            .whereField("uploader_id", isEqualTo: uid)
-                            .getDocuments { mediaSnap, _ in
-                                if let mediaDocs = mediaSnap?.documents {
-                                    for mdoc in mediaDocs {
-                                        let data = mdoc.data()
-                                        guard let url = data["media_url"] as? String,
-                                              let uploader = data["uploader_id"] as? String,
-                                              let isVaulted = data["is_vaulted"] as? Bool else { continue }
-                                        let likes = data["likes"] as? [String] ?? []
-                                        allItems.append(FeedItem(id: mdoc.documentID, imageURL: url, uploaderID: uploader, isVaulted: isVaulted, partyID: partyID, likes: likes))
-                                    }
+        db.collection("parties")
+            .whereField("members", arrayContains: uid)
+            .getDocuments { snapshot, error in
+                guard let docs = snapshot?.documents else { return }
+                var allItems: [FeedItem] = []
+                
+                let group = DispatchGroup()
+                
+                for doc in docs {
+                    let partyID = doc.documentID
+                    group.enter()
+                    db.collection("parties")
+                        .document(partyID)
+                        .collection("media")
+                        .whereField("uploader_id", isEqualTo: uid)
+                        .getDocuments { mediaSnap, _ in
+                            if let mediaDocs = mediaSnap?.documents {
+                                for mdoc in mediaDocs {
+                                    let data = mdoc.data()
+                                    guard let url = data["media_url"] as? String,
+                                          let uploader = data["uploader_id"] as? String,
+                                          let isVaulted = data["is_vaulted"] as? Bool else { continue }
+                                    let likes = data["likes"] as? [String] ?? []
+                                    allItems.append(FeedItem(id: mdoc.documentID, imageURL: url, uploaderID: uploader, isVaulted: isVaulted, partyID: partyID, likes: likes))
                                 }
-                                group.leave()
                             }
-                    }
-                    
-                    group.notify(queue: .main) {
-                        self.uploads = allItems
-                    }
+                            group.leave()
+                        }
                 }
-        }
+                
+                group.notify(queue: .main) {
+                    self.uploads = allItems
+                }
+            }
+    }
     }
     
 struct EditProfileView: View {

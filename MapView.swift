@@ -51,12 +51,14 @@ struct PartyMapView: View {
                     else { return nil }
 
                     let location = data["location"] as? String ?? "Unknown"
+                    let imageURL = data["image_url"] as? String ?? ""
                     let party = Party(
                         id: doc.documentID,
                         name: name,
                         location: location,
                         code: code,
-                        createdAt: timestamp.dateValue()
+                        createdAt: timestamp.dateValue(),
+                        imageURL: imageURL
                     )
 
                     let dummyCoordinates = CLLocationCoordinate2D(latitude: 37.7749, longitude: -122.4194)
