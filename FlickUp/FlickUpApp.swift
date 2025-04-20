@@ -1,17 +1,35 @@
-//
-//  FlickUpApp.swift
-//  FlickUp
-//
-//  Created by Farid Abbasov on 4/19/25.
-//
-
+import Firebase
 import SwiftUI
+import MapKit
+import Foundation
 
 @main
 struct FlickUpApp: App {
+    @State private var isLoggedIn: Bool = false
+
+    init() {
+        FirebaseApp.configure()
+    }
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            if isLoggedIn {
+                AppMainView()
+            } else {
+                AuthGate()
+            }
         }
+    }
+}
+
+struct MapView: View {
+    var body: some View {
+        Text("Map View Coming Soon")
+    }
+}
+
+struct ProfileView: View {
+    var body: some View {
+        Text("Profile View Coming Soon")
     }
 }

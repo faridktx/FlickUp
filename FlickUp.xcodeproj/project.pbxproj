@@ -14,6 +14,16 @@
 		CD1F22442DB43E1300967CBA /* FlickUpTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD1F22432DB43E1300967CBA /* FlickUpTests.swift */; };
 		CD1F224E2DB43E1300967CBA /* FlickUpUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD1F224D2DB43E1300967CBA /* FlickUpUITests.swift */; };
 		CD1F22502DB43E1300967CBA /* FlickUpUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD1F224F2DB43E1300967CBA /* FlickUpUITestsLaunchTests.swift */; };
+		CD1F225E2DB4409E00967CBA /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = CD1F225D2DB4409E00967CBA /* FirebaseAuth */; };
+		CD1F22602DB4409E00967CBA /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = CD1F225F2DB4409E00967CBA /* FirebaseFirestore */; };
+		CD1F22622DB4409E00967CBA /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = CD1F22612DB4409E00967CBA /* FirebaseStorage */; };
+		CD1F22642DB4414C00967CBA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CD1F22632DB4414C00967CBA /* GoogleService-Info.plist */; };
+		CD1F22662DB4480000967CBA /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD1F22652DB4480000967CBA /* AuthManager.swift */; };
+		CD1F22682DB4492500967CBA /* AuthGate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD1F22672DB4492500967CBA /* AuthGate.swift */; };
+		CD1F226A2DB4497900967CBA /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD1F22692DB4497900967CBA /* HomeView.swift */; };
+		CD1F226C2DB44FF000967CBA /* CommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD1F226B2DB44FF000967CBA /* CommentView.swift */; };
+		CD1F226E2DB4511800967CBA /* QRScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD1F226D2DB4511800967CBA /* QRScannerView.swift */; };
+		CDE0809B2DB4C9650069C400 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE0809A2DB4C9650069C400 /* MapView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +54,14 @@
 		CD1F22492DB43E1300967CBA /* FlickUpUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FlickUpUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD1F224D2DB43E1300967CBA /* FlickUpUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickUpUITests.swift; sourceTree = "<group>"; };
 		CD1F224F2DB43E1300967CBA /* FlickUpUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickUpUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		CD1F22632DB4414C00967CBA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		CD1F22652DB4480000967CBA /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
+		CD1F22672DB4492500967CBA /* AuthGate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthGate.swift; sourceTree = "<group>"; };
+		CD1F22692DB4497900967CBA /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		CD1F226B2DB44FF000967CBA /* CommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentView.swift; sourceTree = "<group>"; };
+		CD1F226D2DB4511800967CBA /* QRScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScannerView.swift; sourceTree = "<group>"; };
+		CDE0809A2DB4C9650069C400 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		CDFD12152DB49EAB002CA5BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +69,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD1F225E2DB4409E00967CBA /* FirebaseAuth in Frameworks */,
+				CD1F22602DB4409E00967CBA /* FirebaseFirestore in Frameworks */,
+				CD1F22622DB4409E00967CBA /* FirebaseStorage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,6 +95,14 @@
 		CD1F22262DB43E1100967CBA = {
 			isa = PBXGroup;
 			children = (
+				CDE0809A2DB4C9650069C400 /* MapView.swift */,
+				CDFD12152DB49EAB002CA5BC /* Info.plist */,
+				CD1F226D2DB4511800967CBA /* QRScannerView.swift */,
+				CD1F226B2DB44FF000967CBA /* CommentView.swift */,
+				CD1F22692DB4497900967CBA /* HomeView.swift */,
+				CD1F22672DB4492500967CBA /* AuthGate.swift */,
+				CD1F22652DB4480000967CBA /* AuthManager.swift */,
+				CD1F22632DB4414C00967CBA /* GoogleService-Info.plist */,
 				CD1F22312DB43E1100967CBA /* FlickUp */,
 				CD1F22422DB43E1300967CBA /* FlickUpTests */,
 				CD1F224C2DB43E1300967CBA /* FlickUpUITests */,
@@ -143,6 +172,11 @@
 			dependencies = (
 			);
 			name = FlickUp;
+			packageProductDependencies = (
+				CD1F225D2DB4409E00967CBA /* FirebaseAuth */,
+				CD1F225F2DB4409E00967CBA /* FirebaseFirestore */,
+				CD1F22612DB4409E00967CBA /* FirebaseStorage */,
+			);
 			productName = FlickUp;
 			productReference = CD1F222F2DB43E1100967CBA /* FlickUp.app */;
 			productType = "com.apple.product-type.application";
@@ -215,6 +249,9 @@
 				Base,
 			);
 			mainGroup = CD1F22262DB43E1100967CBA;
+			packageReferences = (
+				CD1F225C2DB4409E00967CBA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = CD1F22302DB43E1100967CBA /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -233,6 +270,7 @@
 			files = (
 				CD1F223A2DB43E1200967CBA /* Preview Assets.xcassets in Resources */,
 				CD1F22372DB43E1200967CBA /* Assets.xcassets in Resources */,
+				CD1F22642DB4414C00967CBA /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,7 +295,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD1F226C2DB44FF000967CBA /* CommentView.swift in Sources */,
+				CDE0809B2DB4C9650069C400 /* MapView.swift in Sources */,
+				CD1F22682DB4492500967CBA /* AuthGate.swift in Sources */,
 				CD1F22352DB43E1100967CBA /* ContentView.swift in Sources */,
+				CD1F22662DB4480000967CBA /* AuthManager.swift in Sources */,
+				CD1F226E2DB4511800967CBA /* QRScannerView.swift in Sources */,
+				CD1F226A2DB4497900967CBA /* HomeView.swift in Sources */,
 				CD1F22332DB43E1100967CBA /* FlickUpApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -422,19 +466,21 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"FlickUp/Preview Content\"";
+				DEVELOPMENT_TEAM = C923262LN3;
 				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "$(PROJECT_DIR)/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = faridabbasov.FlickUp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.farid.flickupv2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -450,19 +496,21 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"FlickUp/Preview Content\"";
+				DEVELOPMENT_TEAM = C923262LN3;
 				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "$(PROJECT_DIR)/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = faridabbasov.FlickUp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.farid.flickupv2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -582,6 +630,35 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		CD1F225C2DB4409E00967CBA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.11.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		CD1F225D2DB4409E00967CBA /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CD1F225C2DB4409E00967CBA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		CD1F225F2DB4409E00967CBA /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CD1F225C2DB4409E00967CBA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		CD1F22612DB4409E00967CBA /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CD1F225C2DB4409E00967CBA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = CD1F22272DB43E1100967CBA /* Project object */;
 }
