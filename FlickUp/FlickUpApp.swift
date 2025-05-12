@@ -22,14 +22,19 @@ struct FlickUpApp: App {
     }
 }
 
+// Note: Add the following property to the Party struct in your model:
+// let coverPhotoURL: String?
+// Remember to update HomeView and PartyDetailView to utilize this new property.
+// Please open HomeView.swift for further modifications related to displaying cover photos.
+
 struct MapView: View {
     var body: some View {
-        Text("Map View Coming Soon")
+        Text("Map View (Interactive map with event markers coming soon)")
     }
 }
 
 struct ProfileView: View {
     var body: some View {
-        Text("Profile View Coming Soon")
+        Text("Profile View (User bios, uploads, and events)")
     }
 }

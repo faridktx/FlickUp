@@ -50,15 +50,19 @@ struct PartyMapView: View {
                         let timestamp = data["created_at"] as? Timestamp
                     else { return nil }
 
+                    let hostID = data["host_id"] as? String ?? ""
                     let location = data["location"] as? String ?? "Unknown"
                     let imageURL = data["image_url"] as? String ?? ""
+                    let memberCount = (data["members"] as? [String])?.count ?? 0
                     let party = Party(
                         id: doc.documentID,
                         name: name,
                         location: location,
                         code: code,
                         createdAt: timestamp.dateValue(),
-                        imageURL: imageURL
+                        imageURL: imageURL,
+                        memberCount: memberCount,
+                        hostID: hostID
                     )
 
                     let dummyCoordinates = CLLocationCoordinate2D(latitude: 37.7749, longitude: -122.4194)
